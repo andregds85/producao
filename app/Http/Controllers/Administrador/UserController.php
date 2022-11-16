@@ -12,8 +12,6 @@ use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
-
-
     function __construct()
     {
          $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
@@ -22,11 +20,10 @@ class UserController extends Controller
          $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
 
-
      public function index(Request $request)
     {
         $data = User::orderBy('id','DESC')->paginate(50);
-        return view('users.index',compact('data'))
+        return view('administrador.usuario.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -34,7 +31,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        return view('administrador.usuario.create',compact('roles'));
     }
 
 
@@ -53,23 +50,22 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
+        return redirect()->route('administrador.usuario.index')
                         ->with('Sucesso','Usuário Criado com  Sucesso');
     }
 
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show',compact('user'));
+        return view('administrador.usuario.show',compact('user'));
     }
-
 
     public function edit($id)
     {
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-        return view('users.edit',compact('user','roles','userRole'));
+        return view('administrador.usuario.edit',compact('user','roles','userRole'));
     }
 
 
@@ -95,14 +91,14 @@ class UserController extends Controller
 
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
+        return redirect()->route('administrador.usuario.index')
                         ->with('Sucesso','Usuário Atualizado com Sucesso');
     }
 
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('users.index')
+        return redirect()->route('administrador.usuario.index')
                         ->with('Sucesso','Usuário Deletado com Sucesso');
     }
 

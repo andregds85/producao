@@ -6,8 +6,6 @@ use App\Models\Checklist;
 use Illuminate\Http\Request;
 use PDF;
 
-
-
 class ProdutoController extends Controller
 {
   
@@ -20,9 +18,11 @@ class ProdutoController extends Controller
     }
     
     public function index()
-    {
-               return view('checklistadm.pesquisa');
-     }
+    {  
+
+        return view('checklistadm.pesquisa');
+
+    }
 
 
      public function pesquisa($p_nome){
